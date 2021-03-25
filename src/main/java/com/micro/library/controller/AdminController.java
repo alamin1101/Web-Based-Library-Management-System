@@ -255,12 +255,12 @@ public class AdminController {
     {
         return "redirect:/admin/book/borrowerslist";
     }
-    @GetMapping("/admin/search")
-    public String search(@RequestParam String username,Model model)
-    {
-        model.addAttribute("list",appUserRepository.findById(username).get());
-        return "/search_page";
-    }
+//    @GetMapping("/admin/search")
+//    public String search(@RequestParam String username,Model model)
+//    {
+//        model.addAttribute("list",appUserRepository.findById(username).get());
+//        return "/search_page";
+//    }
 
 
 
