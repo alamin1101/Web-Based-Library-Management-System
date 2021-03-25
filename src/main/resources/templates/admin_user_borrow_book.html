@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Borrow Book</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .error-message{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a style="color: azure" class="navbar-brand" href="#">Micro Library  </a>
+        </div>
+
+        <ul class="nav navbar-nav">
+            <li ><a href="/">Home</a></li>
+            <li ><a href="/admin/userslist">Users List</a></li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/admin/book/catagory">Catagory</a></li>
+                    <li><a href="/admin/book/title">Title</a></li>
+                </ul>
+            </li>
+
+            <li ><a href="/admin/book/add">Add Book</a></li>
+            <li><a href="/admin/book/borrowers">Borrowers List</a></li>
+            <li ><a href="/admin/book/orderlist">Book Orderlist </a></li>
+            <li><a href="/admin/feedback">Feedback</a></li>
+
+        </ul>
+
+
+        <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="glyphicon glyphicon-user"  sec:authentication="name"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/profile/settings">Settings</a></li>
+                    <li><a href="/logout">Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+<div class="container">
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Borrow Book By User:</h2>
+
+    <form th:action="@{/admin/user/borrow/book}" th:object="${book}" method="post" class="was-validated" style="color: blue">
+
+        <input type="hidden" name="bookId" th:value="${book.bookId}">
+
+        <div class="form-group">
+            <label for="name">Username:</label>
+            <input id="name" type="text" class="form-control" placeholder="Enter username" name="username"
+                   required>
+        </div>
+
+
+        <div class="form-group">
+            <label for="title">Book Title:</label>
+            <input id="title" type="text" class="form-control" placeholder="Enter book title" name="bookTitle" th:field="*{bookTitle}"
+                  disabled required>
+             </div>
+
+
+        <div class="form-group">
+            <label for="author">Author Name:</label>
+            <input type="text" class="form-control" id="author" placeholder="Enter book author" name="author"
+                   th:field="*{author}" disabled required>
+        </div>
+
+        <div class="form-group">
+            <label for="catagory">Catagory:</label>
+            <input type="text" class="form-control" id="catagory" placeholder="Enter book catagory" name="catagory"
+                   th:field="*{catagory}" disabled required>
+        </div>
+
+        <div class="form-group">
+            <label for="edition">Edition:</label>
+            <input type="text" class="form-control" id="edition" placeholder="Enter book edition" name="edition"
+                   th:field="*{edition}" disabled required>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Borrow Date:</label>
+            <input id="date" type="date" class="form-control" placeholder="Enter BorrowDate" name="borrowDate"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="date1">Submit Date:</label>
+            <input id="date1" type="date" class="form-control" placeholder="Enter SubmitDate" name="submitDate"
+                   required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Borrow</button>
+    </form>
+</div>
+
+
+</body>
+</html>

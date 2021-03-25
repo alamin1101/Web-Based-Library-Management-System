@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Users List</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a style="color: azure" class="navbar-brand" href="#">Micro Library        </a>
+        </div>
+
+        <ul class="nav navbar-nav">
+            <li ><a href="/">Home</a></li>
+            <li  class="active" ><a href="/admin/userslist">Users List</a></li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/admin/book/catagory">Catagory</a></li>
+                    <li><a href="/admin/book/title">Title</a></li>
+                </ul>
+            </li>
+
+            <li><a href="/admin/book/add">Add Book</a></li>
+            <li><a href="/admin/book/borrowers">Borrowers List</a></li>
+            <li ><a href="/admin/book/orderlist">Book Orderlist </a></li>
+            <li><a href="/admin/feedback">Feedback</a></li>
+
+        </ul>
+
+        <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="glyphicon glyphicon-user"  sec:authentication="name"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/profile/settings">Settings</a></li>
+                    <li><a href="/logout">Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+
+
+
+<div class="container">
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Users Information :</h2>
+
+    <div style="text-align: right;margin-top: 10px;width: border-box">
+    <form action="/admin/search">
+            <input type="text" placeholder="Search by username..." name="username">
+            <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
+    </form>
+    </div>
+    <table class="table table-bordered table-striped" style="margin-top:10px">
+        <thead>
+        <tr>
+            <th>Username:</th>
+            <th>Email:</th>
+            <th>Phone No:</th>
+            <th>Contact:</th>
+            <th>Borrow Books</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr  th:each="element : ${userslist}">
+            <td> [[${element.username}]]</td>
+            <td> [[${element.email}]]</td>
+            <td> [[${element.phone}]]</td>
+
+            <td  sec:authorize="isAuthenticated()" style="text-align: center;width: fit-content">
+                <a href="#" class="btn btn-warning">Contact</a>
+            </td>
+            <td>
+                <a th:href="@{/admin/borrow/books(user=${element.username})}" class="btn btn-primary">Borrow Books</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

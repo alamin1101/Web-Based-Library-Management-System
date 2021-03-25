@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Book Update</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .error-message{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a style="color: azure" class="navbar-brand" href="#">Micro Library  </a>
+        </div>
+
+        <ul class="nav navbar-nav">
+            <li ><a href="/">Home</a></li>
+            <li ><a href="/admin/userslist">Users List</a></li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/admin/book/catagory">Catagory</a></li>
+                    <li><a href="/admin/book/title">Title</a></li>
+                </ul>
+            </li>
+
+            <li  class="active"><a href="/admin/book/add">Add Book</a></li>
+            <li><a href="/admin/book/borrowers">Borrowers List</a></li>
+            <li ><a href="/admin/book/orderlist">Book Orderlist </a></li>
+            <li><a href="/admin/feedback">Feedback</a></li>
+
+
+        </ul>
+
+
+
+        <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="glyphicon glyphicon-user"  sec:authentication="name"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/profile/settings">Settings</a></li>
+                    <li><a href="/logout">Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+<div class="container">
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Update Book Information:</h2>
+
+    <form th:action="@{/admin/book/update}" th:object="${book}" method="post" class="was-validated" style="color: blue">
+
+        <input type="hidden" name="bookId" th:value="${book.bookId}">
+
+        <div class="form-group">
+            <label for="title">Book Title:</label>
+            <input id="title" type="text" class="form-control" placeholder="Enter book title" name="bookTitle" th:field="*{bookTitle}"
+                   required>
+            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
+            <p class="error-message" th:if="${#fields.hasErrors('bookTitle')}" th:errors="*{bookTitle}"></p>
+        </div>
+
+
+        <div class="form-group">
+            <label for="author">Author Name:</label>
+            <input type="text" class="form-control" id="author" placeholder="Enter book author" name="author"
+                   th:field="*{author}" required>
+            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
+            <p class="error-message" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="catagory">Catagory:</label>
+            <input type="text" class="form-control" id="catagory" placeholder="Enter book catagory" name="catagory"
+                   th:field="*{catagory}" required>
+            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
+            <p class="error-message" th:if="${#fields.hasErrors('catagory')}" th:errors="*{catagory}"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="edition">Edition:</label>
+            <input type="text" class="form-control" id="edition" placeholder="Enter book edition" name="edition"
+                   th:field="*{edition}" required>
+            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
+            <p class="error-message" th:if="${#fields.hasErrors('edition')}" th:errors="*{edition}"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="text" class="form-control" id="price" placeholder="Enter book price" name="price"
+                   th:field="*{price}" required>
+            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
+            <p class="error-message" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+        </div>
+        <input type="hidden" name="available" th:value="${book.available}">
+
+        <input type="hidden" name="availablebooks" th:value="${book.availablebooks}">
+
+
+        <button type="submit" class="btn btn-success">Save Info</button>
+
+    </form>
+</div>
+
+
+</body>
+</html>
