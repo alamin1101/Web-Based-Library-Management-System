@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Book OrderList</title>
+    <title>Book Category</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -26,24 +26,22 @@
 
         <ul class="nav navbar-nav">
             <li ><a href="/">Home</a></li>
-            <li ><a href="/admin/userslist">Users List</a></li>
-
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/admin/book/catagory">Catagory</a></li>
-                    <li><a href="/admin/book/title">Title</a></li>
+                    <li><a href="/user/book/category">Cetegory</a></li>
+                    <li><a href="/user/book/title">Title</a></li>
+                    <li><a href="/user/bookself">All </a></li>
                 </ul>
             </li>
 
-            <li><a href="/admin/book/add">Add Book</a></li>
-            <li><a href="/admin/book/borrowers">Borrowers List</a></li>
-            <li  class="active" ><a href="/admin/book/orderlist">Book Orderlist </a></li>
-            <li><a href="/admin/feedback">Feedback</a></li>
+            <li><a href="/user/borrow/booklist">Borrow Books</a></li>
+            <li><a href="/user/feedback">Feedback</a></li>
 
 
         </ul>
+
 
 
         <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
@@ -63,39 +61,33 @@
 </nav>
 
 <div class="container">
-    <h2 style="margin-top: 15px; text-align: center;color: blueviolet"> Book OrderList:</h2>
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Book Self :</h2>
     <div style="text-align: right;margin-top: 15px;width: available">
-        <a th:href="@{/admin/book/order}" class="btn btn-primary">New Order</a>
+        <form action="/admin/book/search">
+
+            <input type="text" placeholder="search..." name="name">
+            <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
+        </form>
     </div>
 
     <table class="table table-bordered table-striped" style="margin-top:10px">
         <thead>
         <tr>
-            <th>Order Id:</th>
-            <th>Book Title:</th>
-            <th>Author</th>
-            <th>Catagory:</th>
-            <th>Date of Ordered</th>
-            <th>Date of Arival</th>
-            <th>Book Quantity</th>
-            <th>Action</th>
+            <th>Category:</th>
+            <th> Total Books</th>
+            <th>View</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="element : ${orderlist}">
+        <tr th:each="element : ${booklist}">
 
-            <td> [[${element.orderId}]]</td>
-            <td> [[${element.title}]]</td>
-            <td> [[${element.author}]]</td>
-            <td> [[${element.catagory}]]</td>
-            <td> [[${element.orderedDate}]]</td>
-            <td> [[${element.arivalDate}]]</td>
-            <td> [[${element.quantity}]]</td>
+            <td> [[${element.category}]]</td>
+            <th style="text-align: center;color: fuchsia"><b>  [[${element.availablebooks}]]</b></th>
 
 
-            <td style="text-align:center ">
-                <div sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a th:href="@{/admin/book/order/delete(orderId=${element.orderId})}" class="btn btn-danger">Delete</a>
+            <td th:if="${element.available==true}" style="text-align:center ">
+                <div sec:authorize="hasRole('ROLE_USER')">
+                    <a th:href="@{/user/book/category/all(category=${element.category})}" class="btn btn-primary">View Books</a>
                 </div>
             </td>
 

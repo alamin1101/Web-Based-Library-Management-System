@@ -4,6 +4,7 @@ package com.micro.library.controller;
 import com.micro.library.entity.AppUser;
 import com.micro.library.entity.LogInfo;
 import com.micro.library.repository.AppUserRepository;
+import com.micro.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
@@ -23,12 +25,17 @@ public class HomeController {
     @Autowired
     private AppUserRepository appUserRepository;
 
+    @Autowired
+    private BookRepository bookRepository;
 
     LogInfo logInfo=new LogInfo();
 
     @RequestMapping({"/","","/home"})
-    public String home()
+    public String home(Model model)
     {
+        model.addAttribute("users",appUserRepository.count());
+        model.addAttribute("books",bookRepository.count());
+        model.addAttribute("a_books",bookRepository.countBooksByAvailableIsTrue());
         return "home";
     }
 
@@ -51,6 +58,7 @@ public class HomeController {
     @PostMapping("/signup/success")
     public String signSuccess(@Valid AppUser appUser)
     {
+
         if(appUserRepository.countAppUsersByUsername(appUser.getUsername())==1)
             return "signup";
         if (!appUser.getPassword().equals(appUser.getConfirmPassword())) {
@@ -58,7 +66,13 @@ public class HomeController {
         }
         String pass = passwordEncoder.encode(appUser.getPassword());
         appUser.setPassword(pass);
-        appUser.setRole(AppUser.ROLE_USER);
+
+        if(appUserRepository.findByRole().isEmpty()) {
+            appUser.setRole("ROLE_ADMIN");
+        }
+        else {
+            appUser.setRole("ROLE_USER");
+        }
         appUserRepository.save(appUser);
         return "login";
     }
@@ -73,11 +87,9 @@ public class HomeController {
     }
 
     @PostMapping("/login/success")
-    public String loginSuccess(Principal principal)
+    public String loginSuccess()
     {
-        logInfo.setLoginTime(new Date().toString());
-        logInfo.setUser(principal.getName());
-        return "/home";
+            return "redirect:/home";
     }
 
     @RequestMapping("/admin/hello")
@@ -112,8 +124,7 @@ public class HomeController {
     public String profileUpdate(@Valid AppUser appUser,Principal principal,Model model)
     {
         if(!principal.getName().equals(appUser.getUsername())) {
-            if (appUserRepository.countAppUsersByUsername(appUser.getUsername()) == 1)
-                model.addAttribute("name","username is already exist");
+               // model.addAttribute("name", "username is already exist");
                 return "profile_settings";
         }
         if (!appUser.getPassword().equals(appUser.getConfirmPassword())) {
@@ -122,7 +133,10 @@ public class HomeController {
         String pass = passwordEncoder.encode(appUser.getPassword());
         appUser.setPassword(pass);
         appUserRepository.save(appUser);
-        return "home";
+        if(appUser.getRole().equals("ROLE_ADMIN"))
+            return "redirect:/home";
+        else
+            return "redirect:/home";
     }
 
 

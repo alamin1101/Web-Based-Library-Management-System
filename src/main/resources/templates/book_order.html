@@ -32,15 +32,22 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/admin/book/catagory">Catagory</a></li>
+                    <li><a href="/admin/book/category">Category</a></li>
                     <li><a href="/admin/book/title">Title</a></li>
+                    <li><a href="/admin/bookself">All </a></li>
                 </ul>
             </li>
 
             <li><a href="/admin/book/add">Add Book</a></li>
             <li><a href="/admin/book/borrowers">Borrowers List</a></li>
-            <li  class="active"><a href="/admin/book/orderlist">Book Orderlist </a></li>
-            <li><a href="/admin/feedback">Feedback</a></li>
+            <li  class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ordered Book
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li ><a href="/admin/book/orderlist">Orderlist </a></li>
+                    <li><a href="/admin/book/order">New Order</a></li>
+                </ul>
+            </li>
 
 
         </ul>
@@ -70,17 +77,17 @@
         <div class="form-group">
             <label for="title">Book Title:</label>
             <input id="title" type="text" class="form-control" placeholder="Enter book title" name="title" required>
-            </div>
+        </div>
 
 
         <div class="form-group">
             <label for="author">Author Name:</label>
             <input type="text" class="form-control" id="author" placeholder="Enter book author" name="author" required>
-              </div>
+        </div>
 
         <div class="form-group">
-            <label for="catagory">Catagory:</label>
-            <input type="text" class="form-control" id="catagory" placeholder="Enter book catagory" name="catagory"required>
+            <label for="category">Category:</label>
+            <input type="text" class="form-control" id="category" placeholder="Enter book category" name="category"required>
         </div>
 
         <div class="form-group">

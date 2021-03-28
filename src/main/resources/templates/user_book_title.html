@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Book Self</title>
+    <title>Book Title</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -30,8 +30,9 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/user/book/catagory">Catagory</a></li>
+                    <li><a href="/user/book/category">Category</a></li>
                     <li><a href="/user/book/title">Title</a></li>
+                    <li><a href="/user/bookself">All </a></li>
                 </ul>
             </li>
 
@@ -71,17 +72,17 @@
         <thead>
         <tr>
             <th>Book Title:</th>
-            <th>Catagory:</th>
-            <th>Available Books</th>
-            <th>Action</th>
+            <th>Category:</th>
+            <th>Total Books</th>
+            <th>View</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="element : ${booklist}">
 
             <td> [[${element.bookTitle}]]</td>
-            <td> [[${element.catagory}]]</td>
-            <th>  [[${element.availablebooks}]]</th>
+            <td> [[${element.category}]]</td>
+            <th style="text-align: center;color: fuchsia"><b>[[${element.availablebooks}]]</b></th>
 
 
             <td th:if="${element.available==true}" style="text-align:center ">

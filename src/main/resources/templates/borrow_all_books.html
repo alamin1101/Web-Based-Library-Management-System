@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Borrowers List</title>
+    <title>Borrowed Books </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -26,21 +26,28 @@
 
         <ul class="nav navbar-nav">
             <li ><a href="/">Home</a></li>
-            <li ><a href="/admin/userslist">Users List</a></li>
+            <li class="active"><a href="/admin/userslist">Users List</a></li>
 
             <li  class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/admin/book/catagory">Catagory</a></li>
+                    <li><a href="/admin/book/category">Cetagory</a></li>
                     <li><a href="/admin/book/title">Title</a></li>
+                    <li><a href="/admin/bookself">All </a></li>
                 </ul>
             </li>
 
             <li><a href="/admin/book/add">Add Book</a></li>
-            <li class="active"><a href="/admin/book/borrowers">Borrowers List</a></li>
-            <li ><a href="/admin/book/orderlist">Book Orderlist </a></li>
-            <li><a href="/admin/feedback">Feedback</a></li>
+            <li><a href="/admin/book/borrowers">Borrowers List</a></li>
+            <li  class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ordered Book
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li ><a href="/admin/book/orderlist">Orderlist </a></li>
+                    <li><a href="/admin/book/order">New Order</a></li>
+                </ul>
+            </li>
 
 
         </ul>
@@ -64,33 +71,40 @@
 </nav>
 
 <div class="container">
-    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Borrowers List :</h2>
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet"> Borrowed Books :</h2>
     <div style="text-align: right;margin-top: 15px;width: available">
-        <form action="/admin/search">
-            <input type="text" placeholder="search..." name="name">
-            <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
-        </form>
+
+        <h2>[[${username}]]</h2>
     </div>
 
     <table class="table table-bordered table-striped" style="margin-top:10px">
         <thead>
         <tr>
-            <th>Username:</th>
-            <th>Email:</th>
-            <th>Phone</th>
-            <th>Number of Borrowed Books</th>
+            <th>Book Id</th>
+            <th>Title:</th>
+            <th>Author:</th>
+            <th>Category</th>
+            <th>Edition</th>
+            <th>Borrow Date</th>
+            <th>Deadline Date</th>
+            <th>Fine</th>
+            <th>Returned Info</th>
+
         </tr>
         </thead>
         <tbody>
-        <tr th:each="element : ${borrowlist}">
-
-            <td> [[${element.username}]]</td>
-            <td> [[${element.email}]]</td>
-            <th>  [[${element.phone}]]</th>
-            <th>  [[${#lists.size(element.bookBorrowList)}]]</th>
+        <tr th:each="bookBorrow : ${bookBorrowList}">
+            <td> [[${bookBorrow.book.bookId}]]</td>
+            <td> [[${bookBorrow.book.bookTitle}]]</td>
+            <td> [[${bookBorrow.book.author}]]</td>
+            <th>  [[${bookBorrow.book.category}]]</th>
+            <th>  [[${bookBorrow.book.edition}]]</th>
+            <th>  [[${bookBorrow.borrowDate}]]</th>
+            <th>  [[${bookBorrow.submitDate}]]</th>
+            <th style="color: dodgerblue">  [[${bookBorrow.fine}]]</th>
             <th>
                 <div sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a th:href="@{/admin/borrow/books(user=${element.username})}" class="btn btn-primary">View Books</a>
+                    <a th:href="@{/admin/book/return(book=${bookBorrow.book.bookId},user=${username})}" class="btn btn-primary">Received By Admin</a>
                 </div>
             </th>
 

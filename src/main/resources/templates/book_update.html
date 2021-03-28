@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Borrow Book</title>
+    <title>Book Update</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -32,17 +32,26 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/admin/book/catagory">Catagory</a></li>
+                    <li><a href="/admin/book/category">Category</a></li>
                     <li><a href="/admin/book/title">Title</a></li>
+                    <li><a href="/admin/bookself">All </a></li>
                 </ul>
             </li>
 
-            <li ><a href="/admin/book/add">Add Book</a></li>
+            <li  class="active"><a href="/admin/book/add">Add Book</a></li>
             <li><a href="/admin/book/borrowers">Borrowers List</a></li>
-            <li ><a href="/admin/book/orderlist">Book Orderlist </a></li>
-            <li><a href="/admin/feedback">Feedback</a></li>
+            <li  class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ordered Book
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li ><a href="/admin/book/orderlist">Orderlist </a></li>
+                    <li><a href="/admin/book/order">New Order</a></li>
+                </ul>
+            </li>
+
 
         </ul>
+
 
 
         <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
@@ -62,56 +71,59 @@
 </nav>
 
 <div class="container">
-    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Borrow Book By User:</h2>
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Update Book Information:</h2>
 
-    <form th:action="@{/admin/user/borrow/book}" th:object="${book}" method="post" class="was-validated" style="color: blue">
+    <form th:action="@{/admin/book/update}" th:object="${book}" method="post" class="was-validated" style="color: blue">
 
         <input type="hidden" name="bookId" th:value="${book.bookId}">
 
         <div class="form-group">
-            <label for="name">Username:</label>
-            <input id="name" type="text" class="form-control" placeholder="Enter username" name="username"
-                   required>
-        </div>
-
-
-        <div class="form-group">
             <label for="title">Book Title:</label>
             <input id="title" type="text" class="form-control" placeholder="Enter book title" name="bookTitle" th:field="*{bookTitle}"
-                  disabled required>
-             </div>
+                   required>
+            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
+            <p class="error-message" th:if="${#fields.hasErrors('bookTitle')}" th:errors="*{bookTitle}"></p>
+        </div>
 
 
         <div class="form-group">
             <label for="author">Author Name:</label>
             <input type="text" class="form-control" id="author" placeholder="Enter book author" name="author"
-                   th:field="*{author}" disabled required>
+                   th:field="*{author}" required>
+            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
+            <p class="error-message" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>
         </div>
 
         <div class="form-group">
-            <label for="catagory">Catagory:</label>
-            <input type="text" class="form-control" id="catagory" placeholder="Enter book catagory" name="catagory"
-                   th:field="*{catagory}" disabled required>
+            <label for="category">Category:</label>
+            <input type="text" class="form-control" id="category" placeholder="Enter book category" name="category"
+                   th:field="*{category}" required>
+            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
+            <p class="error-message" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></p>
         </div>
 
         <div class="form-group">
             <label for="edition">Edition:</label>
             <input type="text" class="form-control" id="edition" placeholder="Enter book edition" name="edition"
-                   th:field="*{edition}" disabled required>
+                   th:field="*{edition}" required>
+            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
+            <p class="error-message" th:if="${#fields.hasErrors('edition')}" th:errors="*{edition}"></p>
         </div>
 
         <div class="form-group">
-            <label for="date">Borrow Date:</label>
-            <input id="date" type="date" class="form-control" placeholder="Enter BorrowDate" name="borrowDate"
-                   required>
+            <label for="price">Price:</label>
+            <input type="text" class="form-control" id="price" placeholder="Enter book price" name="price"
+                   th:field="*{price}" required>
+            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
+            <p class="error-message" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
         </div>
-        <div class="form-group">
-            <label for="date1">Submit Date:</label>
-            <input id="date1" type="date" class="form-control" placeholder="Enter SubmitDate" name="submitDate"
-                   required>
-        </div>
+        <input type="hidden" name="available" th:value="${book.available}">
 
-        <button type="submit" class="btn btn-success">Borrow</button>
+        <input type="hidden" name="availablebooks" th:value="${book.availablebooks}">
+
+
+        <button type="submit" class="btn btn-success">Save Info</button>
+
     </form>
 </div>
 

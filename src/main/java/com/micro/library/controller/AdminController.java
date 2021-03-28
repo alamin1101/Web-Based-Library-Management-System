@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class AdminController {
@@ -42,8 +40,11 @@ public class AdminController {
     private BorrowRepository borrowRepository;
 
     @RequestMapping("/admin")
-    public String admin()
+    public String admin(Model model)
     {
+        model.addAttribute("users",appUserRepository.count());
+        model.addAttribute("books",bookRepository.count());
+        model.addAttribute("a_books",bookRepository.countBooksByAvailableIsTrue());
         return "admin_home";
     }
 
@@ -53,7 +54,7 @@ public class AdminController {
     public String adminBookAdd(Model model)
     {
         model.addAttribute("book", new Book());
-        return "admin_book_add";
+        return "book_add";
     }
 
     @PostMapping("/admin/book/add")
@@ -61,23 +62,23 @@ public class AdminController {
     {
 
         adminService.addBook(book);
-        return "redirect:/admin/book/catagory";
+        return "redirect:/admin/book/category";
     }
 
 
-    @RequestMapping("/admin/book/catagory")
-    public String adminBookCatagory(Model model)
+    @RequestMapping("/admin/book/category")
+    public String adminBookCatagory(Model model, @RequestParam(required = false) String s)
     {
-        model.addAttribute("booklist",bookRepository.findAllBookNumbersByCatagory());
-        return "admin_book_catagory";
+        model.addAttribute("booklist",bookRepository.findAllBookNumbersByCategory(s));
+        return "book_category";
     }
 
 
     @GetMapping("/admin/book/title")
-    public String adminBooksTitle( Model model) {
+    public String adminBooksTitle(Model model, @RequestParam(required = false) String s) {
 
-        model.addAttribute("booklist",bookRepository.findAllBookNumbersByTitle());
-        return "admin_book_title";
+        model.addAttribute("booklist",bookRepository.findAllBookNumbersByTitle(s));
+        return "book_title";
 
     }
 
@@ -85,14 +86,14 @@ public class AdminController {
     public String adminBooksTitle(@RequestParam String bookTitle,Model model)
     {
         model.addAttribute("booklist",bookRepository.findByBookTitle(bookTitle));
-        return "admin_bookself";
+        return "bookself";
     }
 
-    @RequestMapping("/admin/book/catagory/all")
-    public String adminBookCatagory(@RequestParam String catagory,Model model)
+    @RequestMapping("/admin/book/category/all")
+    public String adminBookCatagory(@RequestParam String category,Model model)
     {
-        model.addAttribute("booklist",bookRepository.findByCatagory(catagory));
-        return "admin_bookself";
+        model.addAttribute("booklist",bookRepository.findByCategory(category));
+        return "bookself";
     }
 
 
@@ -100,33 +101,33 @@ public class AdminController {
     @GetMapping("/admin/book/update")
     public String adminBookUpdate(@RequestParam int bookId, Model model){
         model.addAttribute("book", adminService.getBooktById(bookId));
-        return "admin_book_update";
+        return "book_update";
     }
     @PostMapping("/admin/book/update")
     public String adminUpdatesuccess(@Valid Book book)
     {
 
         adminService.addBook(book);
-        return "redirect:/admin/book/catagory";
+        return "redirect:/admin/book/category";
     }
 
     @RequestMapping("/admin/book/delete")
     public String adminBookDelete(@RequestParam int bookId){
         adminService.deleteBookById(bookId);
-        return "redirect:/admin/book/catagory";
+        return "redirect:/admin/book/category";
     }
 
     @RequestMapping("/admin/bookself")
     public String adminBookself(Model model){
         model.addAttribute("booklist", adminService.findAllBook());
-        return "admin_bookself";
+        return "bookself";
     }
 
     @RequestMapping("admin/userslist")
-    public String adminUserslist(Model model) {
+    public String adminUserslist(Model model,@RequestParam(required = false) String s) {
         AppUser appUser=new AppUser();
-        model.addAttribute("userslist", appUserRepository.findAllUsers());
-        return "admin_list_of_users";
+        model.addAttribute("userslist", appUserRepository.findAllUsers(s));
+        return "list_of_users";
     }
 
 
@@ -136,7 +137,7 @@ public class AdminController {
     {
 
         model.addAttribute("userslist", appUserRepository.findById(username).get());
-        return "admin_list_of_users";
+        return "list_of_users";
     }
 
 
@@ -147,7 +148,7 @@ public class AdminController {
     @GetMapping("/admin/book/order")
     public String adminBookOrder1()
     {
-        return "admin_book_order";
+        return "book_order";
     }
 
 
@@ -155,7 +156,7 @@ public class AdminController {
     public String adminBookOrder(@ModelAttribute BookOrder bookorder) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         if (format.parse(bookorder.getArivalDate()).before(format.parse(bookorder.getOrderedDate()))) {
-            return "admin_book_order";
+            return "book_order";
         }
         bookOrderRepository.save(bookorder);
         return "redirect:/admin/book/orderlist";
@@ -165,9 +166,8 @@ public class AdminController {
     public String adminBookOrderlist(Model model)
     {
         model.addAttribute("orderlist",bookOrderRepository.findAll());
-        return "admin_book_orderlist";
+        return "book_orderlist";
     }
-
 
 
 
@@ -182,22 +182,21 @@ public class AdminController {
     @GetMapping("/admin/user/borrow/book")
     public String userBookBorrow(@RequestParam int bookId, Model model){
         model.addAttribute("book", adminService.getBooktById(bookId));
-        return "admin_user_borrow_book";
+        return "user_borrow_book";
     }
 
     @PostMapping("/admin/user/borrow/book")
-    public String userBorrowBook(@RequestParam int bookId,@RequestParam String username,@RequestParam String borrowDate,@RequestParam String submitDate) {
+    public String userBorrowBook(Model model,@RequestParam int bookId,@RequestParam String username,@RequestParam String borrowDate,@RequestParam String submitDate) {
 
         Book book = bookRepository.findById(bookId).get();
-        AppUser appUser = appUserRepository.findById(username).get();
-        if (book == null||appUser.getRole().equals("ROLE_ADMIN")||appUser==null)
+        AppUser appUser = appUserRepository.findById(username).orElse(null);
+        if (appUser.getRole().equals("ROLE_ADMIN"))
         {
-            return "redirect:/admin/user/borrow/book";
+            return "redirect:/home";
+
         }
 
         book.setAvailable(false);
-
-
 
         BookBorrow bookBorrow = new BookBorrow();
         bookBorrow.setBook(book);
@@ -208,34 +207,29 @@ public class AdminController {
 
         appUserRepository.save(appUser);
 
-        return "redirect:/admin/book/catagory";
+        return "redirect:/admin/book/category";
     }
 
 
 
 
     @GetMapping("/admin/book/borrowerslist")
-    public String fetchBorrowBookInfo(Model model) {
-        List<AppUser> appUsers = appUserRepository.findAllByRole("ROLE_USER");
-        appUsers.forEach(u->{
-            u.setBookBorrowList(u.getBookBorrowList()
-                    .stream().filter(b->!b.isReturned())
-                    .collect(Collectors.toList()));
-        });
+    public String fetchBorrowBookInfo(Model model, @RequestParam(required = false) String s) {
+        List<AppUser> appUsers = appUserRepository.findAllByRoleAndSearchValue(s, "ROLE_USER");
         model.addAttribute("borrowlist",appUsers);
-        return "admin_book_borrowers";
+        return "book_borrowers";
     }
 
     @GetMapping("/admin/borrow/books")
     public String adminBookUserBorrowlist(@RequestParam(name = "user") String username, Model model) {
-         AppUser appUser =  appUserRepository.findById(username).get();
-         if (appUser == null) {
-             return "redirect:/admin/userslist";
-         }
-         List<BookBorrow> bookBorrowList = appUser.getBookBorrowList();
-         model.addAttribute("bookBorrowList", bookBorrowList);
-         model.addAttribute("username", username);
-        return "admin_book_borrows_all";
+        AppUser appUser =  appUserRepository.findById(username).get();
+        if (appUser == null) {
+            return "redirect:/admin/userslist";
+        }
+        List<BookBorrow> bookBorrowList = appUser.getBookBorrowList();
+        model.addAttribute("bookBorrowList", bookBorrowList);
+        model.addAttribute("username", username);
+        return "borrow_all_books";
     }
 
     @Transactional

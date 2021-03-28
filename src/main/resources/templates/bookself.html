@@ -32,15 +32,22 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
           <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="/admin/book/catagory">Catagory</a></li>
+          <li><a href="/admin/book/category">Category</a></li>
           <li><a href="/admin/book/title">Title</a></li>
+          <li><a href="/admin/bookself">All </a></li>
         </ul>
       </li>
 
       <li><a href="/admin/book/add">Add Book</a></li>
       <li><a href="/admin/book/borrowers">Borrowers List</a></li>
-      <li ><a href="/admin/book/orderlist">Book Orderlist </a></li>
-      <li><a href="/admin/feedback">Feedback</a></li>
+      <li  class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ordered Book
+          <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li ><a href="/admin/book/orderlist">Orderlist </a></li>
+          <li><a href="/admin/book/order">New Order</a></li>
+        </ul>
+      </li>
 
     </ul>
 
@@ -67,7 +74,7 @@
   <div style="text-align: right;margin-top: 15px;width: available">
     <form action="/admin/search">
       <input type="text" placeholder="search..." name="name">
-    <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
+      <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
     </form>
   </div>
 
@@ -77,7 +84,7 @@
       <th>Book Id:</th>
       <th>Book Title:</th>
       <th>Author</th>
-      <th>Catagory:</th>
+      <th>Category:</th>
       <th>Edition</th>
       <th>Price</th>
       <th>Action</th>
@@ -89,7 +96,7 @@
       <td> [[${element.bookId}]]</td>
       <td> [[${element.bookTitle}]]</td>
       <td> [[${element.author}]]</td>
-      <td> [[${element.catagory}]]</td>
+      <td> [[${element.category}]]</td>
       <td> [[${element.edition}]]</td>
       <td> [[${element.price}]]</td>
 

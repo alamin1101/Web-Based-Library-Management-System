@@ -20,28 +20,28 @@ public class Book {
     private int bookId;
     private String bookTitle;
     private String author;
-    private String catagory;
+    private String category;
     private String edition;
     private String price;
     private boolean available=true;
-    private Long availablebooks= Long.valueOf(1);
+    private Long availablebooks = 1l;
 
-    public Book( String bookTitle, String author, String catagory, String edition, String price, boolean available) {
+    public Book(String bookTitle, String author, String category, String edition, String price, boolean available) {
         this.bookTitle = bookTitle;
         this.author = author;
-        this.catagory = catagory;
+        this.category = category;
         this.edition = edition;
         this.price = price;
         this.available= available;
     }
 
-    public Book(String bookTitle,String catagory, Long availablebooks) {
+    public Book(String bookTitle, String category, Long availablebooks) {
         this.bookTitle = bookTitle;
-        this.catagory = catagory;
+        this.category = category;
         this.availablebooks = availablebooks;
     }
-    public Book(String catagory, Long availablebooks) {
-        this.catagory = catagory;
+    public Book(String category, Long availablebooks) {
+        this.category = category;
         this.availablebooks = availablebooks;
     }
 

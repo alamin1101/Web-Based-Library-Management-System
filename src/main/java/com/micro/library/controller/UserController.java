@@ -1,22 +1,17 @@
 package com.micro.library.controller;
 
 import com.micro.library.entity.AppUser;
-import com.micro.library.entity.Book;
 import com.micro.library.entity.BookBorrow;
 import com.micro.library.repository.AppUserRepository;
 import com.micro.library.repository.BookRepository;
 import com.micro.library.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.security.Principal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -38,22 +33,25 @@ public class UserController {
     @RequestMapping("/user")
     public String admin(Model model)
     {
+        model.addAttribute("users",appUserRepository.count());
+        model.addAttribute("books",bookRepository.count());
+        model.addAttribute("a_books",bookRepository.countBooksByAvailableIsTrue());
         return "user_home";
     }
 
 
-    @RequestMapping("/user/book/catagory")
-    public String userBookCatagory(Model model)
+    @RequestMapping("/user/book/category")
+    public String userBookCatagory(Model model, @RequestParam(name = "s", required = false) String s)
     {
-        model.addAttribute("booklist",bookRepository.findAllBookNumbersByCatagory());
-        return "user_book_catagory";
+        model.addAttribute("booklist",bookRepository.findAllBookNumbersByCategory(s));
+        return "user_book_category";
     }
 
 
     @GetMapping("/user/book/title")
-    public String userBooksTitle( Model model) {
+    public String userBooksTitle( Model model, @RequestParam(name = "s", required = false) String s) {
 
-        model.addAttribute("booklist",bookRepository.findAllBookNumbersByTitle());
+        model.addAttribute("booklist",bookRepository.findAllBookNumbersByTitle(s));
         return "user_book_title";
 
     }
@@ -64,10 +62,10 @@ public class UserController {
         model.addAttribute("booklist",bookRepository.findByBookTitle(bookTitle));
         return "user_bookself";
     }
-    @RequestMapping("/user/book/catagory/all")
-    public String adminBookCatagoryall(@RequestParam String catagory,Model model)
+    @RequestMapping("/user/book/category/all")
+    public String adminBookCatagoryall(@RequestParam String category,Model model)
     {
-        model.addAttribute("booklist",bookRepository.findByCatagory(catagory));
+        model.addAttribute("booklist",bookRepository.findByCategory(category));
         return "user_bookself";
     }
 
@@ -76,7 +74,7 @@ public class UserController {
     public String adminBookUserBorrowlist(Principal principal, Model model) {
         AppUser appUser =  appUserRepository.findById(principal.getName()).get();
         if (appUser == null) {
-            return "redirect:/user/book/catagory";
+            return "redirect:/user/book/category";
         }
         List<BookBorrow> bookBorrowList = appUser.getBookBorrowList();
         model.addAttribute("bookBorrowList", bookBorrowList);

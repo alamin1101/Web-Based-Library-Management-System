@@ -36,7 +36,7 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public List<Book> findByCatagory(String catagory)
     {
-       return bookRepository.findByCatagory(catagory);
+       return bookRepository.findByCategory(catagory);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class AdminServiceImpl implements AdminService{
         Map<Book, Integer> map3 = new HashMap<>();
         List<Book> books = bookRepository.findAll();
         books.stream().forEach(book -> {
-            String catagory = book.getCatagory();
+            String catagory = book.getCategory();
             Integer count = map.get(catagory);
             if (count ==  null) {
                 map.put(catagory, 1);

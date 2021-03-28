@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Book Catagory</title>
+    <title>Borrowers List</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -28,19 +28,26 @@
             <li ><a href="/">Home</a></li>
             <li ><a href="/admin/userslist">Users List</a></li>
 
-            <li class="dropdown">
+            <li  class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/admin/book/catagory">Catagory</a></li>
+                    <li><a href="/admin/book/category">Cetagory</a></li>
                     <li><a href="/admin/book/title">Title</a></li>
+                    <li><a href="/admin/bookself">All </a></li>
                 </ul>
             </li>
 
             <li><a href="/admin/book/add">Add Book</a></li>
-            <li><a href="/admin/book/borrowers">Borrowers List</a></li>
-            <li ><a href="/admin/book/orderlist">Book Orderlist </a></li>
-            <li><a href="/admin/feedback">Feedback</a></li>
+            <li class="active"><a href="/admin/book/borrowers">Borrowers List</a></li>
+            <li  class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ordered Book
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li ><a href="/admin/book/orderlist">Orderlist </a></li>
+                    <li><a href="/admin/book/order">New Order</a></li>
+                </ul>
+            </li>
 
 
         </ul>
@@ -64,10 +71,10 @@
 </nav>
 
 <div class="container">
-    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Book Catagory :</h2>
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Borrowers List :</h2>
     <div style="text-align: right;margin-top: 15px;width: available">
-        <form action="/admin/search">
-            <input type="text" placeholder="search..." name="name">
+        <form action="/admin/book/borrowerslist">
+            <input type="text" placeholder="search..." name="s">
             <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
         </form>
     </div>
@@ -75,23 +82,24 @@
     <table class="table table-bordered table-striped" style="margin-top:10px">
         <thead>
         <tr>
-            <th>Catagory:</th>
-            <th>Available Books</th>
-            <th>Action</th>
+            <th>Username:</th>
+            <th>Email:</th>
+            <th>Phone</th>
+            <th>Number of Borrowed Books</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="element : ${booklist}">
+        <tr th:each="element : ${borrowlist}">
 
-            <td> [[${element.catagory}]]</td>
-            <th style="text-align: center;color: fuchsia">  [[${element.availablebooks}]]</th>
-
-
-            <td th:if="${element.available==true}" style="text-align:center ">
+            <td> [[${element.username}]]</td>
+            <td> [[${element.email}]]</td>
+            <th>  [[${element.phone}]]</th>
+            <th style="color: dodgerblue">  [[${#lists.size(element.bookBorrowList)}]]</th>
+            <th>
                 <div sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a th:href="@{/admin/book/catagory/all(catagory=${element.catagory})}" class="btn btn-primary">View Books</a>
+                    <a th:href="@{/admin/borrow/books(user=${element.username})}" class="btn btn-primary">View Books</a>
                 </div>
-            </td>
+            </th>
 
         </tr>
         </tbody>

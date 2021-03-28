@@ -32,16 +32,22 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/admin/book/catagory">Catagory</a></li>
+                    <li><a href="/admin/book/category">Category</a></li>
                     <li><a href="/admin/book/title">Title</a></li>
+                    <li><a href="/admin/bookself">All </a></li>
                 </ul>
             </li>
 
             <li><a href="/admin/book/add">Add Book</a></li>
             <li><a href="/admin/book/borrowers">Borrowers List</a></li>
-            <li ><a href="/admin/book/orderlist">Book Orderlist </a></li>
-            <li><a href="/admin/feedback">Feedback</a></li>
-
+            <li  class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ordered Book
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li ><a href="/admin/book/orderlist">Orderlist </a></li>
+                    <li><a href="/admin/book/order">New Order</a></li>
+                </ul>
+            </li>
 
         </ul>
 
@@ -66,8 +72,8 @@
 <div class="container">
     <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Book Title :</h2>
     <div style="text-align: right;margin-top: 15px;width: available">
-        <form action="/admin/search">
-            <input type="text" placeholder="search..." name="name">
+        <form action="/admin/book/title">
+            <input type="text" placeholder="search..." name="s">
             <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
         </form>
     </div>
@@ -76,8 +82,8 @@
         <thead>
         <tr>
             <th>Book Title:</th>
-            <th>Catagory:</th>
-            <th>Available Books</th>
+            <th>Category:</th>
+            <th>Total Books</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -85,8 +91,8 @@
         <tr th:each="element : ${booklist}">
 
             <td> [[${element.bookTitle}]]</td>
-            <td> [[${element.catagory}]]</td>
-            <th>  [[${element.availablebooks}]]</th>
+            <td> [[${element.category}]]</td>
+            <th style="color: dodgerblue"> <b> [[${element.availablebooks}]]</b></th>
 
 
             <td th:if="${element.available==true}" style="text-align:center ">

@@ -19,16 +19,16 @@ public class BookOrder {
     private int orderId;
     private String title;
     private String author;
-    private String catagory;
+    private String category;
     private String orderedDate;
     private String arivalDate;
     private long quantity;
 
-    public BookOrder(String title, String author, String catagory, String orderedDate, String arivalDate, long quantity)
+    public BookOrder(String title, String author, String category, String orderedDate, String arivalDate, long quantity)
     {
         this.title = title;
         this.author = author;
-        this.catagory = catagory;
+        this.category = category;
         this.orderedDate = orderedDate;
         this.arivalDate = arivalDate;
         this.quantity = quantity;

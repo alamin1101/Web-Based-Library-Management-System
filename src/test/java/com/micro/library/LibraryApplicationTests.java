@@ -23,25 +23,5 @@ class LibraryApplicationTests {
 
     }
 
-    public static void main(String[] args) throws ParseException {
-        AppUser appUser = new AppUser();
-        appUser.setUsername("Limon");
-        BookBorrow b1 = new BookBorrow();
-        b1.setBook(new Book());
-        b1.setReturned(true);
-
-        BookBorrow b2 = new BookBorrow();
-        b2.setBook(new Book());
-        b2.setReturned(false);
-
-        appUser.setBookBorrowList(Arrays.asList(b1, b2));
-        List<AppUser> appUsers = Arrays.asList(
-                appUser
-        );
-        appUsers.forEach(u->{
-            u.setBookBorrowList(u.getBookBorrowList().stream().filter(b->!b.isReturned()).collect(Collectors.toList()));
-        });
-        System.out.println(appUsers.get(0).getBookBorrowList().get(0).isReturned());
-    }
 
 }

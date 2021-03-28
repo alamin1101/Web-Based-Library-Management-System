@@ -14,19 +14,17 @@ import java.util.List;
 @Entity
 public class AppUser {
 
-   public static final String ROLE_USER = "ROLE_USER";
-
-   @Id
-   private String username;
-   private String email;
-   private String phone;
-   private String password;
-   @Transient
-   private String confirmPassword;
-   private String role;
-   @OneToMany(cascade = CascadeType.ALL)
-   @JoinColumn(name = "userinfo", referencedColumnName = "username")
-   private List<BookBorrow> bookBorrowList;
+    @Id
+    private String username;
+    private String email;
+    private String phone;
+    private String password;
+    @Transient
+    private String confirmPassword;
+    private String role;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userinfo", referencedColumnName = "username")
+    private List<BookBorrow> bookBorrowList;
 
     public AppUser() {
     }

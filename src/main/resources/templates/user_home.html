@@ -10,8 +10,31 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <style>
-        .error-message{
-            color: red;
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial;
+            font-size: 17px;
+        }
+
+        .container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .container img {vertical-align: middle;}
+
+        .container .content {
+            position: absolute;
+            bottom: 0;
+            background: rgb(0, 0, 0); /* Fallback color */
+            background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+            color: #f1f1f1;
+            width: 97%;
+            padding: 170px;
         }
     </style>
 </head>
@@ -29,8 +52,9 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/user/book/catagory">Catagory</a></li>
+                    <li><a href="/user/book/category">Category</a></li>
                     <li><a href="/user/book/title">Title</a></li>
+                    <li><a href="/user/bookself">All </a></li>
                 </ul>
             </li>
 
@@ -57,10 +81,17 @@
     </div>
 </nav>
 
+
 <div class="container">
-    <center>
-        <h1 style="color: blue">Welcome to Micro Library</h1>
-    </center>
+    <img src="library.jpg" alt="Notebook" style="width: 100%;height: 90%">
+    <div class="content">
+        <center>
+            <h1 style="color: fuchsia"><b>Welcome to Micro Library System</b></h1>
+            <h3 style="color: white">Number of Users: [[${users}]]</h3>
+            <h3 style="color: dodgerblue">Number of Books: [[${books}]]</h3>
+            <h3 style="color: white">Number of Available Books: [[${a_books}]]</h3>
+        </center>
+    </div>
 </div>
 
 </body>

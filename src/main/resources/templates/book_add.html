@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Book Update</title>
+    <title>Add Book</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -32,19 +32,24 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/admin/book/catagory">Catagory</a></li>
+                    <li><a href="/admin/book/category">Category</a></li>
                     <li><a href="/admin/book/title">Title</a></li>
+                    <li><a href="/admin/bookself">All </a></li>
                 </ul>
             </li>
 
             <li  class="active"><a href="/admin/book/add">Add Book</a></li>
             <li><a href="/admin/book/borrowers">Borrowers List</a></li>
-            <li ><a href="/admin/book/orderlist">Book Orderlist </a></li>
-            <li><a href="/admin/feedback">Feedback</a></li>
-
+            <li  class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ordered Book
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li ><a href="/admin/book/orderlist">Orderlist </a></li>
+                    <li><a href="/admin/book/order">New Order</a></li>
+                </ul>
+            </li>
 
         </ul>
-
 
 
         <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
@@ -64,9 +69,9 @@
 </nav>
 
 <div class="container">
-    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Update Book Information:</h2>
+    <h2 style="margin-top: 15px; text-align: center;color:blueviolet">Add New Book :</h2>
 
-    <form th:action="@{/admin/book/update}" th:object="${book}" method="post" class="was-validated" style="color: blue">
+    <form th:action="@{/admin/book/add}" th:object="${book}" method="post" class="was-validated" style="color: blue">
 
         <input type="hidden" name="bookId" th:value="${book.bookId}">
 
@@ -88,11 +93,11 @@
         </div>
 
         <div class="form-group">
-            <label for="catagory">Catagory:</label>
-            <input type="text" class="form-control" id="catagory" placeholder="Enter book catagory" name="catagory"
-                   th:field="*{catagory}" required>
+            <label for="category">Category:</label>
+            <input type="text" class="form-control" id="category" placeholder="Enter book category" name="category"
+                   th:field="*{category}" required>
             <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
-            <p class="error-message" th:if="${#fields.hasErrors('catagory')}" th:errors="*{catagory}"></p>
+            <p class="error-message" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></p>
         </div>
 
         <div class="form-group">
@@ -110,13 +115,13 @@
             <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
             <p class="error-message" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
         </div>
+
         <input type="hidden" name="available" th:value="${book.available}">
 
-        <input type="hidden" name="availablebooks" th:value="${book.availablebooks}">
-
-
-        <button type="submit" class="btn btn-success">Save Info</button>
-
+        <div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <a href="/admin/book/add" class="btn btn-danger">Cancel</a>
+        </div>
     </form>
 </div>
 
