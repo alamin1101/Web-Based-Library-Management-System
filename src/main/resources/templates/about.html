@@ -19,10 +19,10 @@
             <a style="color: azure" class="navbar-brand" href="#">Micro Library        </a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
+            <li ><a href="/">Home</a></li>
             <li><a href="/admin"><i class="fa fa-home"></i>Admin</a></li>
             <li><a href="/user">User</a></li>
-            <li><a href="/about">About</a></li>
+            <li class="active"><a href="/about">About</a></li>
         </ul>
         <ul sec:authorize="!isAuthenticated()" class="nav navbar-nav navbar-right">
             <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
@@ -44,12 +44,14 @@
     </div>
 </nav>
 
-<div class="container">
-    <center>
-        <h1 style="color: blue">Welcome to Micro Library</h1>
-    </center>
+<div style="margin: 10px">
+
+<h6 style="color: blueviolet"> Micro library is a web based library management system. In this system, all control handled  by an admin. When no admin are available then an admin can sign up with admin role automitacally.
+    Then admin can login this system.
+    Otherhand users can also sign up firstly with user role. Then he/she can login this system and just see all books by category, title or all books with available or non available.He/she also see his/her previous borrowed books with fine.When a user will come to the library to borrow books or return previous borrowed books with fine if needed. Admin will receive borrow books from users individually with fine if needed and also handle users new borrow book order.Admin also handle to add new books in the library and order new books.Admin see all books with category, title or all and also handle update or delete books.
+</h6>
+
 </div>
-<h3>this is about page</h3>
 </body>
 </html>
 

@@ -37,8 +37,7 @@
             </li>
 
             <li><a href="/user/borrow/booklist">Borrow Books</a></li>
-            <li><a href="/user/feedback">Feedback</a></li>
-
+            <li><a href="/user/fine">Total Fine</a></li>
 
         </ul>
 
@@ -60,10 +59,10 @@
 </nav>
 
 <div class="container">
-    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Book Self :</h2>
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Book Title :</h2>
     <div style="text-align: right;margin-top: 15px;width: available">
-        <form action="/admin/book/search">
-            <input type="text" placeholder="search..." name="name">
+        <form action="/user/book/title">
+            <input type="text" placeholder="search..." name="s">
             <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
         </form>
     </div>
@@ -82,7 +81,7 @@
 
             <td> [[${element.bookTitle}]]</td>
             <td> [[${element.category}]]</td>
-            <th style="text-align: center;color: fuchsia"><b>[[${element.availablebooks}]]</b></th>
+            <th style="text-align: center;color: dodgerblue "><b>[[${element.availablebooks}]]</b></th>
 
 
             <td th:if="${element.available==true}" style="text-align:center ">

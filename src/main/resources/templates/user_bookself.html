@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Book Self</title>
+    <title>BookSelf</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -37,8 +37,7 @@
             </li>
 
             <li><a href="/user/borrow/booklist">Borrow Books</a></li>
-            <li><a href="/user/feedback">Feedback</a></li>
-
+            <li><a href="/user/fine">Total Fine</a></li>
 
         </ul>
 
@@ -61,10 +60,10 @@
 </nav>
 
 <div class="container">
-    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Book Self :</h2>
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet"> Micro Library,s BookSelf :</h2>
     <div style="text-align: right;margin-top: 15px;width: available">
-        <form action="/admin/book/search">
-            <input type="text" placeholder="search..." name="name">
+        <form action="/user/bookself">
+            <input type="text" placeholder="search..." name="s">
             <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
         </form>
     </div>

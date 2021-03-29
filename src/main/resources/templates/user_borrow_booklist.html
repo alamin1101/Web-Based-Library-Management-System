@@ -37,8 +37,7 @@
             </li>
 
             <li class="active"><a href="/user/borrow/booklist">Borrow Books</a></li>
-            <li><a href="/user/feedback">Feedback</a></li>
-
+            <li><a href="/user/fine">Total Fine</a></li>
 
         </ul>
 
@@ -75,7 +74,7 @@
             <th>Category</th>
             <th>Edition</th>
             <th>Borrow Date</th>
-            <th>Beadline Date</th>
+            <th>Deadline Date</th>
             <th>Fine</th>
 
         </tr>
@@ -90,7 +89,6 @@
             <th>  [[${bookBorrow.borrowDate}]]</th>
             <th>  [[${bookBorrow.submitDate}]]</th>
             <th style="color: mediumvioletred"> <b> [[${bookBorrow.fine}]]</b></th>
-
         </tr>
         </tbody>
     </table>

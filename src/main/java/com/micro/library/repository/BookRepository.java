@@ -1,5 +1,6 @@
 package com.micro.library.repository;
 
+import com.micro.library.entity.AppUser;
 import com.micro.library.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -22,7 +23,8 @@ public interface BookRepository extends JpaRepository<Book,Integer>
     int countBooksByAvailableIsTrue();
 
 
-
+    @Query("select b from Book b where  (?1 is null or b.bookTitle like %?1% or b.category like %?1% or b.author like %?1% or b.edition like %?1%)")
+    List<Book> findAllBooks(String s);
 
     //@Query("select  count(b) from Book b")
     @Query("select new Book(b.bookTitle, b.category, count (b)) from Book b WHERE  (?1 is null or b.bookTitle like %?1%) GROUP BY b.bookTitle")
@@ -35,5 +37,4 @@ public interface BookRepository extends JpaRepository<Book,Integer>
     @Modifying
     @Query("update Book b set b.available=?1 where b.bookId=?2")
     void updateBookAvailability(boolean available, int bookId);
-
 }

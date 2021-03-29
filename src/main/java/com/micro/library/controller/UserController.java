@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
+
+import static com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundOperation.ANONYMOUS.required;
 
 @Controller
 public class UserController {
@@ -41,7 +44,7 @@ public class UserController {
 
 
     @RequestMapping("/user/book/category")
-    public String userBookCatagory(Model model, @RequestParam(name = "s", required = false) String s)
+    public String userBookCatagory(Model model, @RequestParam(required = false) String s)
     {
         model.addAttribute("booklist",bookRepository.findAllBookNumbersByCategory(s));
         return "user_book_category";
@@ -49,7 +52,7 @@ public class UserController {
 
 
     @GetMapping("/user/book/title")
-    public String userBooksTitle( Model model, @RequestParam(name = "s", required = false) String s) {
+    public String userBooksTitle( Model model, @RequestParam( required = false) String s) {
 
         model.addAttribute("booklist",bookRepository.findAllBookNumbersByTitle(s));
         return "user_book_title";
@@ -76,13 +79,11 @@ public class UserController {
         if (appUser == null) {
             return "redirect:/user/book/category";
         }
-        List<BookBorrow> bookBorrowList = appUser.getBookBorrowList();
+        List<BookBorrow> bookBorrowList = (appUser.getBookBorrowList());
         model.addAttribute("bookBorrowList", bookBorrowList);
         model.addAttribute("username", principal.getName());
         return "user_borrow_booklist";
     }
-
-
 
 
 
@@ -95,8 +96,9 @@ public class UserController {
 
 
     @RequestMapping("/user/bookself")
-    public String userBookself(Model model) {
-        model.addAttribute("booklist", adminService.findAllBook());
+    public String userBookself(Model model,@RequestParam(required = false) String s)
+    {
+        model.addAttribute("booklist", bookRepository.findAllBooks(s));
         return "user_bookself";
     }
 
@@ -110,6 +112,21 @@ public class UserController {
         Date date=new Date();
         model.addAttribute("borrowlist",appUser.getBookBorrowList());
         return "user_borrow_booklist";
+    }
+
+    @GetMapping("/user/fine")
+    public String fine(Model model,Principal principal)
+    {
+        AppUser appUser =  appUserRepository.findById(principal.getName()).get();
+        List<BookBorrow> bookBorrowList = (appUser.getBookBorrowList());
+        int totalFine=0;
+        ListIterator<BookBorrow> litr = bookBorrowList.listIterator();
+        while(litr.hasNext()){
+            totalFine+=(litr.next().getFine());
+        }
+        model.addAttribute("fine",totalFine);
+        return "user_fine";
+
     }
 
 
