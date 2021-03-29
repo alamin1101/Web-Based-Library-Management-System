@@ -27,6 +27,7 @@ public class UserController {
 
     @Autowired
     private AdminService adminService;
+
     @Autowired
     AppUserRepository appUserRepository;
 
@@ -65,6 +66,8 @@ public class UserController {
         model.addAttribute("booklist",bookRepository.findByBookTitle(bookTitle));
         return "user_bookself";
     }
+
+
     @RequestMapping("/user/book/category/all")
     public String adminBookCatagoryall(@RequestParam String category,Model model)
     {
@@ -86,13 +89,11 @@ public class UserController {
     }
 
 
-
     @ResponseBody
     @RequestMapping("/fetch_user/{username}")
     public AppUser fetchUser(@PathVariable("username") String username) {
         return appUserRepository.findById(username).get();
     }
-
 
 
     @RequestMapping("/user/bookself")
@@ -101,8 +102,6 @@ public class UserController {
         model.addAttribute("booklist", bookRepository.findAllBooks(s));
         return "user_bookself";
     }
-
-
 
 
     @GetMapping("/user/book/borrow/list")
@@ -128,7 +127,5 @@ public class UserController {
         return "user_fine";
 
     }
-
-
 
 }

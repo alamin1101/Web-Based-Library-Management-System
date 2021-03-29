@@ -19,7 +19,6 @@ public interface BookRepository extends JpaRepository<Book,Integer>
 
     List<Book>findByAuthor(String author);
 
-
     int countBooksByAvailableIsTrue();
 
 
@@ -33,6 +32,7 @@ public interface BookRepository extends JpaRepository<Book,Integer>
 
     @Query("select new Book(c.category, count (c)) from Book c WHERE  (?1 is null or c.category like %?1%) GROUP BY c.category")
     List<Book> findAllBookNumbersByCategory(String category);
+
 
     @Modifying
     @Query("update Book b set b.available=?1 where b.bookId=?2")

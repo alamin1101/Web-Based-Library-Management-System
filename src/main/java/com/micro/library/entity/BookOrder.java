@@ -24,6 +24,7 @@ public class BookOrder {
     private String arivalDate;
     private long quantity;
 
+
     public BookOrder(String title, String author, String category, String orderedDate, String arivalDate, long quantity)
     {
         this.title = title;

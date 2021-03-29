@@ -26,7 +26,9 @@ public class AppUser {
     @JoinColumn(name = "userinfo", referencedColumnName = "username")
     private List<BookBorrow> bookBorrowList;
 
-    public AppUser() {
+    public AppUser()
+    {
+
     }
 
     public AppUser(String username, String email, String phone, String password, String role) {

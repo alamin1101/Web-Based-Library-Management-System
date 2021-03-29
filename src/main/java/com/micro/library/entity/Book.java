@@ -40,7 +40,8 @@ public class Book {
         this.category = category;
         this.availablebooks = availablebooks;
     }
-    public Book(String category, Long availablebooks) {
+    public Book(String category, Long availablebooks)
+    {
         this.category = category;
         this.availablebooks = availablebooks;
     }

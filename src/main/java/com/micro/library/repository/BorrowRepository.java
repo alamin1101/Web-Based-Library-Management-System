@@ -18,5 +18,4 @@ public interface BorrowRepository extends CrudRepository<BookBorrow, Long> {
     @Query("delete from BookBorrow bb where bb.book=?1")
     void removeByBorrowBook(Book book);
 
-
 }

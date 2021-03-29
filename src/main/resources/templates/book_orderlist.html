@@ -95,7 +95,6 @@
             <td> [[${element.arivalDate}]]</td>
             <td> [[${element.quantity}]]</td>
 
-
             <td style="text-align:center ">
                 <div sec:authorize="hasRole('ROLE_ADMIN')">
                     <a th:href="@{/admin/book/order/delete(orderId=${element.orderId})}" class="btn btn-danger">Delete</a>

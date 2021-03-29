@@ -49,7 +49,6 @@ public class AdminController {
     }
 
 
-
     @GetMapping("/admin/book/add")
     public String adminBookAdd(Model model)
     {
@@ -97,12 +96,13 @@ public class AdminController {
     }
 
 
-
     @GetMapping("/admin/book/update")
     public String adminBookUpdate(@RequestParam int bookId, Model model){
         model.addAttribute("book", adminService.getBooktById(bookId));
         return "book_update";
     }
+
+
     @PostMapping("/admin/book/update")
     public String adminUpdatesuccess(@Valid Book book)
     {
@@ -131,7 +131,6 @@ public class AdminController {
     }
 
 
-
     @RequestMapping("/admin/search")
     public String userSearch(@RequestParam String username, Model model)
     {
@@ -139,10 +138,6 @@ public class AdminController {
         model.addAttribute("userslist", appUserRepository.findById(username).get());
         return "list_of_users";
     }
-
-
-
-
 
 
     @GetMapping("/admin/book/order")
@@ -168,7 +163,6 @@ public class AdminController {
         model.addAttribute("orderlist",bookOrderRepository.findAll());
         return "book_orderlist";
     }
-
 
 
     @RequestMapping("/admin/book/order/delete")
@@ -209,8 +203,6 @@ public class AdminController {
 
         return "redirect:/admin/book/category";
     }
-
-
 
 
     @GetMapping("/admin/book/borrowerslist")
@@ -255,7 +247,6 @@ public class AdminController {
         model.addAttribute("list",appUserRepository.findById(username).get());
         return "/search_page";
     }
-
 
 
 }

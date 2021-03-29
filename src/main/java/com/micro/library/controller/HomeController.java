@@ -46,8 +46,6 @@ public class HomeController {
     }
 
 
-
-
     @GetMapping({"/signup"})
     public String signup(Model model)
     {
@@ -76,8 +74,6 @@ public class HomeController {
         appUserRepository.save(appUser);
         return "login";
     }
-
-
 
 
     @GetMapping("/login")
@@ -112,6 +108,7 @@ public class HomeController {
         model.addAttribute("user_info", appUser);
         return "profile";
     }
+
     @RequestMapping("/profile/settings")
     public String profileSettings(Principal principal, Model model)
     {
@@ -138,9 +135,5 @@ public class HomeController {
         else
             return "redirect:/home";
     }
-
-
-
-
 
 }
