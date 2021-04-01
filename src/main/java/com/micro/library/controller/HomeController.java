@@ -54,7 +54,7 @@ public class HomeController {
     }
 
     @PostMapping("/signup/success")
-    public String signSuccess(@Valid AppUser appUser)
+    public String signSuccess(@Valid AppUser appUser,Model model)
     {
 
         if(appUserRepository.countAppUsersByUsername(appUser.getUsername())==1)
@@ -72,7 +72,8 @@ public class HomeController {
             appUser.setRole("ROLE_USER");
         }
         appUserRepository.save(appUser);
-        return "login";
+        model.addAttribute("message","sign up success");
+        return "message";
     }
 
 

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -40,7 +41,7 @@ public class AdminController {
     private BorrowRepository borrowRepository;
 
     @RequestMapping("/admin")
-    public String admin(Model model)
+    public String admin(Model model, Principal principal)
     {
         model.addAttribute("users",appUserRepository.count());
         model.addAttribute("books",bookRepository.count());
